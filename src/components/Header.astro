@@ -1,8 +1,9 @@
 ---
 import { siteConfig } from "../config";
 const { title, subtitle, author, since } = siteConfig;
+const path = import.meta.env.BASE_URL;
 ---
 <header>
-    <h1 class="site-title"><a href="/">{title}</a></h1>
+    <h1 class="site-title"><a href={path}>{title}</a></h1>
     <h2 class="site-subtitle">{subtitle}</h2>
 </header>
