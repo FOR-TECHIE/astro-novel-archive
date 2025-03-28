@@ -1,0 +1,37 @@
+---
+import { siteConfig } from "../config";
+
+const { autoGenerate, addedMenus, manualMenus } = siteConfig.navbar;
+const topContents = siteConfig.topContents;
+---
+
+<nav>
+    <ul>
+        {
+            autoGenerate
+                ? topContents.map((content) => (
+                      <li>
+                          <a href={"#" + content.id}>{content.title}</a>
+                      </li>
+                  ))
+                : manualMenus.map((menu) => (
+                      <li>
+                          <a href={menu.url ? menu.url : menu.jump}>
+                              {menu.label}
+                          </a>
+                      </li>
+                  ))
+        }
+        {
+            autoGenerate
+                ? addedMenus.map((menu) => (
+                      <li>
+                          <a href={menu.url ? menu.url : menu.jump}>
+                              {menu.label}
+                          </a>
+                      </li>
+                  ))
+                : ""
+        }
+    </ul>
+</nav>

@@ -1,0 +1,61 @@
+---
+import fs from "fs";
+import path from "path";
+import { getEntry, render } from "astro:content";
+import { siteConfig } from "../config";
+import Works from "../components/Works.astro"
+
+
+const renderedContents = await Promise.all(
+    siteConfig.topContents.map(async (content) => {
+        let rendered = null;
+        let rawHTML = null;
+        let AstroComponent = null;
+
+        if(content.filename.endsWith(".astro")) {
+            AstroComponent = Works;
+        }
+        else if (content.filename.endsWith(".md")) {
+            const entry = await getEntry(
+                "topContents",
+                content.filename.replace(".md", ""),
+            );
+            if (!entry) {
+                throw new Error(`Could not find topContents: ${content.filename}`);
+            }
+            rendered = await render(entry);
+        } else if (content.filename.endsWith(".html")) {
+            const filePath = path.join("./src/" + siteConfig.customDir + "contents/topContents/", content.filename);
+            try {
+                rawHTML = fs.readFileSync(filePath, "utf-8");
+            } catch (error) {
+                console.error(`Error reading file: ${filePath}`, error);
+                rawHTML = "<p>Error loading content</p>";
+            }
+        }
+
+        return {
+            title: content.title,
+            rendered,
+            rawHTML,
+            AstroComponent,
+            id: content.id,
+        };
+    })
+);
+---
+
+<main>
+    {renderedContents.map((content) => (
+        <div class="topcontents-outer">
+            <h3 class="topcontents-heading" id={content.id}>{content.title}</h3>
+            { content.AstroComponent ? <content.AstroComponent />
+            :
+            content.rendered ? (
+                <content.rendered.Content />
+            ) : (
+                <div set:html={content.rawHTML}></div>
+            )}
+        </div>
+    ))}
+</main>
