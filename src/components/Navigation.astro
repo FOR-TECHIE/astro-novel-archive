@@ -1,6 +1,5 @@
 ---
 import { siteConfig } from "../config";
-
 const { autoGenerate, addedMenus, manualMenus } = siteConfig.navbar;
 const topContents = siteConfig.topContents;
 ---
@@ -16,7 +15,7 @@ const topContents = siteConfig.topContents;
                   ))
                 : manualMenus.map((menu) => (
                       <li>
-                          <a href={menu.url ? menu.url : menu.jump}>
+                          <a href={menu.url ? (menu.url.startsWith("http") ? menu.url : import.meta.env.BASE_URL + menu.url ) : menu.jump}>
                               {menu.label}
                           </a>
                       </li>
