@@ -1,0 +1,39 @@
+---
+import { siteConfig } from "../config";
+import "../custom/styles/global.css";
+
+const { title, subtitle } = siteConfig;
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{title} | {subtitle}</title>
+	</head>
+	<body>
+		<slot />
+		<div
+			id="backToTop"
+			onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
+		>
+			^
+		</div>
+	</body>
+	<script>
+		// スクロールイベントをリスンして、一定のスクロール量を超えたらボタンを表示
+		window.addEventListener("scroll", function () {
+			const backToTopButton = document.getElementById("backToTop");
+
+			if (backToTopButton) {
+				if (window.scrollY > 300) {
+					// 300px 以上スクロールしたら表示
+					backToTopButton.style.display = "block";
+				} else {
+					backToTopButton.style.display = "none";
+				}
+			}
+		});
+	</script>
+</html>

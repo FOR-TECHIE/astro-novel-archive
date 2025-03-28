@@ -1,0 +1,14 @@
+[
+    {
+        "displayName": "メイン",
+        "slug": "main"
+    },
+    {
+        "displayName": "夏目漱石",
+        "slug": "natsume"
+    },
+    {
+        "displayName": "宮沢賢治",
+        "slug": "miyazawa"
+    }
+]

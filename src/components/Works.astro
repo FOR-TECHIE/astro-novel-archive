@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+const works = await getCollection("works");
+const workCategories = await getCollection("workCategories");
+
+let displayed: boolean[] = [];
+works.map((work, index) => {
+    const category = work.data.category;
+    if(workCategories.find(cat => (
+        cat.data.slug === category
+    ))) {
+        displayed.push(true);
+    }
+    else {
+        displayed.push(false);
+    }
+});
+---
+<div>
+    {
+        workCategories.map((category, index) => (
+            <h4 class="category-heading">{category.data.displayName}</h4>
+            <ul>
+                {
+                    works.filter(work => (work.data.category == category.data.slug))
+                        .map(work => (
+                            <li><a href={`/works/${work.id}`}>{work.data.title}</a> {work.data.description}</li>
+                        ))
+                }
+            </ul>
+        ))
+    }
+    {
+        <h4 class="category-heading">未分類</h4>
+        <ul>
+            {
+                displayed.map((el, index) => (
+                    !el
+                    ? 
+                    <li><a href={`/works/${works[index].id}`}>{works[index].data.title}</a> {works[index].data.description}</li>
+                    :
+                    ""
+                ))
+            }
+        </ul>
+    }
+</div>
