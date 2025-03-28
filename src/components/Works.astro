@@ -24,7 +24,7 @@ works.map((work, index) => {
                 {
                     works.filter(work => (work.data.category == category.data.slug))
                         .map(work => (
-                            <li><a href={`/works/${work.id}`}>{work.data.title}</a> {work.data.description}</li>
+                            <li><a href={`${import.meta.env.BASE_URL}/works/${work.id}`}>{work.data.title}</a> {work.data.description}</li>
                         ))
                 }
             </ul>
@@ -37,7 +37,7 @@ works.map((work, index) => {
                 displayed.map((el, index) => (
                     !el
                     ? 
-                    <li><a href={`/works/${works[index].id}`}>{works[index].data.title}</a> {works[index].data.description}</li>
+                    <li><a href={`${import.meta.env.BASE_URL}/works/${works[index].id}`}>{works[index].data.title}</a> {works[index].data.description}</li>
                     :
                     ""
                 ))
